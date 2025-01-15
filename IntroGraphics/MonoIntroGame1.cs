@@ -9,12 +9,12 @@ public class MonoIntroGame1 : Game
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
 
-    private Texture2D daffySpriteTexture;
+    private Texture2D player1SpriteTexture;
 
-    private Vector2 daffyPosition = new(0, 0);
+    private Vector2 player1Position = new(0, 0);
 
     // add a velocity variable
-    private Vector2 daffyVelocity = new(5, 1);
+    private Vector2 player1Velocity = new(5, 1);
 
     private SpriteFont scoreFont;
     private int scoreCount;
@@ -31,7 +31,7 @@ public class MonoIntroGame1 : Game
     {
         spriteBatch = new(GraphicsDevice);
 
-        daffySpriteTexture = Content.Load<Texture2D>("images/daffy");
+        player1SpriteTexture = Content.Load<Texture2D>("sprites/player1");
         scoreFont = Content.Load<SpriteFont>("fonts/score");
     }
 
@@ -43,18 +43,19 @@ public class MonoIntroGame1 : Game
             Exit();
         }
 
-        daffyPosition += daffyVelocity;
-        if (daffyPosition.X + daffySpriteTexture.Width > graphics.GraphicsDevice.Viewport.Width || daffyPosition.X < 0)
+        player1Position += player1Velocity;
+        if (player1Position.X + player1SpriteTexture.Width > graphics.GraphicsDevice.Viewport.Width ||
+            player1Position.X < 0)
         {
             scoreCount++;
-            daffyVelocity.X *= -1;
+            player1Velocity.X *= -1;
         }
 
-        if (daffyPosition.Y + daffySpriteTexture.Height > graphics.GraphicsDevice.Viewport.Height ||
-            daffyPosition.Y < 0)
+        if (player1Position.Y + player1SpriteTexture.Height > graphics.GraphicsDevice.Viewport.Height ||
+            player1Position.Y < 0)
         {
             scoreCount++;
-            daffyVelocity.Y *= -1;
+            player1Velocity.Y *= -1;
         }
 
         base.Update(gameTime);
@@ -66,8 +67,8 @@ public class MonoIntroGame1 : Game
 
         spriteBatch.Begin();
 
-        spriteBatch.Draw(daffySpriteTexture, daffyPosition, Color.White);
-        spriteBatch.DrawString(scoreFont, $"Score: {scoreCount}", new(400, 200), Color.White);
+        spriteBatch.Draw(player1SpriteTexture, player1Position, Color.White);
+        spriteBatch.DrawString(scoreFont, $"Score : {scoreCount}", new(5, 0), Color.White);
 
         spriteBatch.End();
 

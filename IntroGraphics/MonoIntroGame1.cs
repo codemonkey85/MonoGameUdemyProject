@@ -6,12 +6,15 @@ namespace IntroGraphics;
 
 public class MonoIntroGame1 : Game
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    private GraphicsDeviceManager graphics;
+    private SpriteBatch spriteBatch;
+
+    private Texture2D daffySpriteTexture;
+    private Texture2D cartoonSpriteTexture;
 
     public MonoIntroGame1()
     {
-        _graphics = new(this);
+        graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
@@ -25,9 +28,11 @@ public class MonoIntroGame1 : Game
 
     protected override void LoadContent()
     {
-        _spriteBatch = new(GraphicsDevice);
+        spriteBatch = new(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
+        daffySpriteTexture = Content.Load<Texture2D>("images/daffy");
+        cartoonSpriteTexture = Content.Load<Texture2D>("images/cartoon");
     }
 
     protected override void Update(GameTime gameTime)
@@ -48,6 +53,12 @@ public class MonoIntroGame1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         // TODO: Add your drawing code here
+        spriteBatch.Begin();
+        
+        spriteBatch.Draw(daffySpriteTexture, new Vector2(0, 0), Color.White);
+        spriteBatch.Draw(cartoonSpriteTexture, new Vector2(400, 200), Color.White);
+        
+        spriteBatch.End();
 
         base.Draw(gameTime);
     }

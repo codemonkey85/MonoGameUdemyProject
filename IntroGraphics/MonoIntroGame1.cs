@@ -16,6 +16,9 @@ public class MonoIntroGame1 : Game
     // add a velocity variable
     private Vector2 daffyVelocity = new(5, 1);
 
+    private SpriteFont scoreFont;
+    private int scoreCount;
+
     public MonoIntroGame1()
     {
         graphics = new(this);
@@ -29,6 +32,7 @@ public class MonoIntroGame1 : Game
         spriteBatch = new(GraphicsDevice);
 
         daffySpriteTexture = Content.Load<Texture2D>("images/daffy");
+        scoreFont = Content.Load<SpriteFont>("fonts/score");
     }
 
     protected override void Update(GameTime gameTime)
@@ -42,11 +46,14 @@ public class MonoIntroGame1 : Game
         daffyPosition += daffyVelocity;
         if (daffyPosition.X + daffySpriteTexture.Width > graphics.GraphicsDevice.Viewport.Width || daffyPosition.X < 0)
         {
+            scoreCount++;
             daffyVelocity.X *= -1;
         }
 
-        if (daffyPosition.Y + daffySpriteTexture.Height > graphics.GraphicsDevice.Viewport.Height || daffyPosition.Y < 0)
+        if (daffyPosition.Y + daffySpriteTexture.Height > graphics.GraphicsDevice.Viewport.Height ||
+            daffyPosition.Y < 0)
         {
+            scoreCount++;
             daffyVelocity.Y *= -1;
         }
 
@@ -60,6 +67,7 @@ public class MonoIntroGame1 : Game
         spriteBatch.Begin();
 
         spriteBatch.Draw(daffySpriteTexture, daffyPosition, Color.White);
+        spriteBatch.DrawString(scoreFont, $"Score: {scoreCount}", new(400, 200), Color.White);
 
         spriteBatch.End();
 

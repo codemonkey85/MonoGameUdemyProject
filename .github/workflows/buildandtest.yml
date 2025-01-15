@@ -28,7 +28,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      - name: Build android project
+      # sets up .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.2.0
+
+      - name: Build project
         uses: igotinfected-ci/build-monogame@v2.0.3
         with:
           solution-path: '${{ github.workspace }}\MonoGameUdemyCourseSolution.sln'

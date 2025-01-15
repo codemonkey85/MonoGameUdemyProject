@@ -43,6 +43,15 @@ jobs:
           sudo apt install wine64
           wine --version
 
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -r linux-x64 --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build
+
       - name: Build Windows
         run: dotnet publish ${{ env.PROJECT_PATH }} -r win-x64 -c Release --self-contained --output artifacts/windows
 

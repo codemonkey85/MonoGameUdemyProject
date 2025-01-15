@@ -6,28 +6,33 @@ namespace IntroGraphics;
 
 public class MonoIntroGame1 : Game
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    private GraphicsDeviceManager graphics;
+    private SpriteBatch spriteBatch;
+
+    private Texture2D daffySpriteTexture;
+
+    private Vector2 daffyPosition = new(0, 0);
+
+    // add a velocity variable
+    private Vector2 daffyVelocity = new(5, 1);
+
+    private SpriteFont scoreFont;
+    private int scoreCount;
 
     public MonoIntroGame1()
     {
-        _graphics = new(this);
+        graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-    }
-
-    protected override void Initialize()
-    {
-        // TODO: Add your initialization logic here
-
-        base.Initialize();
+        Window.Position = new(400, 200);
     }
 
     protected override void LoadContent()
     {
-        _spriteBatch = new(GraphicsDevice);
+        spriteBatch = new(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        daffySpriteTexture = Content.Load<Texture2D>("images/daffy");
+        scoreFont = Content.Load<SpriteFont>("fonts/score");
     }
 
     protected override void Update(GameTime gameTime)
@@ -38,7 +43,19 @@ public class MonoIntroGame1 : Game
             Exit();
         }
 
-        // TODO: Add your update logic here
+        daffyPosition += daffyVelocity;
+        if (daffyPosition.X + daffySpriteTexture.Width > graphics.GraphicsDevice.Viewport.Width || daffyPosition.X < 0)
+        {
+            scoreCount++;
+            daffyVelocity.X *= -1;
+        }
+
+        if (daffyPosition.Y + daffySpriteTexture.Height > graphics.GraphicsDevice.Viewport.Height ||
+            daffyPosition.Y < 0)
+        {
+            scoreCount++;
+            daffyVelocity.Y *= -1;
+        }
 
         base.Update(gameTime);
     }
@@ -47,7 +64,12 @@ public class MonoIntroGame1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        spriteBatch.Begin();
+
+        spriteBatch.Draw(daffySpriteTexture, daffyPosition, Color.White);
+        spriteBatch.DrawString(scoreFont, $"Score: {scoreCount}", new(400, 200), Color.White);
+
+        spriteBatch.End();
 
         base.Draw(gameTime);
     }

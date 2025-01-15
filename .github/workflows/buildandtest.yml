@@ -14,11 +14,19 @@ on:
   pull_request:
     branches: [ dev, main ]
 
+  # allow running this workflow manually
+  workflow_dispatch:
+
+env:
+  PROJECT_PATH: IntroGraphics
+
 jobs:
   build:
     name: Build and Test
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
+    env:
+      MGFXC_WINE_PATH: /home/runner/.winemonogame
 
     steps:
       # uses GitHub's checkout action to checkout code form the release branch
@@ -28,9 +36,13 @@ jobs:
       # sets up .NET SDK
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.2.0
-        with:
-          global-json-file: ./global.json
-  
+
+      - name: Setup Wine
+        run: |
+          sudo apt update
+          sudo apt install wine64
+          wine --version
+
       - name: Restore dependencies
         run: dotnet restore
 
@@ -39,3 +51,12 @@ jobs:
 
       - name: Run tests
         run: dotnet test --configuration Release --no-build
+
+      - name: Build Windows
+        run: dotnet publish ${{ env.PROJECT_PATH }} -r win-x64 -c Release --self-contained --output artifacts/windows
+
+      - name: Build Osx
+        run: dotnet publish ${{ env.PROJECT_PATH }} -r osx-x64 -c Release --self-contained --output artifacts/osx
+
+      - name: Build Linux
+        run: dotnet publish ${{ env.PROJECT_PATH }} -r linux-x64 -c Release --self-contained --output artifacts/linux

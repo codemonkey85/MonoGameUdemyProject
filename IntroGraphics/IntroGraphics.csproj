@@ -6,7 +6,6 @@
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
         <PublishAot>true</PublishAot>
-        <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
     </PropertyGroup>
 

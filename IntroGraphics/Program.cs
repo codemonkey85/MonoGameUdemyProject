@@ -1,2 +1,2 @@
-﻿using var game = new IntroGraphics.Game1();
+﻿using var game = new IntroGraphics.MonoIntroGame1();
 game.Run();

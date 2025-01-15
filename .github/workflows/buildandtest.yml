@@ -39,12 +39,9 @@ jobs:
 
       - name: Setup Wine
         run: |
-          sudo dpkg --add-architecture x64
-          wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
-          sudo add-apt-repository ppa:cybermax-dexter/sdl2-backport
-          sudo apt-add-repository "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main"
-          sudo apt install --install-recommends winehq-stable
-
+          sudo apt update
+          sudo apt install wine64
+          wine --version
 
       - name: Build Windows
         run: dotnet publish ${{ env.PROJECT_PATH }} -r win-x64 -c Release --self-contained --output artifacts/windows

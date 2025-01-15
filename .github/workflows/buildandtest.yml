@@ -14,6 +14,9 @@ on:
   pull_request:
     branches: [ dev, main ]
 
+  # allow running this workflow manually
+  workflow_dispatch:
+
 jobs:
   build:
     name: Build and Test
@@ -25,17 +28,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      # sets up .NET SDK
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4.2.0
+      - name: Build android project
+        uses: igotinfected-ci/build-monogame@v2.0.3
         with:
-          global-json-file: ./global.json
-  
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Run tests
-        run: dotnet test --configuration Release --no-build
+          solution-path: '${{ github.workspace }}\MonoGameUdemyCourseSolution.sln'
+          content-mgcb-path: '${{ github.workspace }}\IntroGraphics\Content'
+          content-mgcb-platform: "Linux"
+          csproj-path: '${{ github.workspace }}\IntroGraphics\IntroGraphics.csproj'
+          build-target: "PackageForLinux"
+          build-configuration: "Release"

@@ -51,13 +51,3 @@ jobs:
 
       - name: Build Linux
         run: dotnet publish ${{ env.PROJECT_PATH }} -r linux-x64 -c Release --self-contained --output artifacts/linux
-
-      - name: Build project
-        uses: igotinfected-ci/build-monogame@v2.0.3
-        with:
-          solution-path: '${{ github.workspace }}\MonoGameUdemyCourseSolution.sln'
-          content-mgcb-path: '${{ github.workspace }}\IntroGraphics\Content'
-          content-mgcb-platform: "Windows"
-          csproj-path: '${{ github.workspace }}\IntroGraphics\IntroGraphics.csproj'
-          build-target: "PackageForWindows"
-          build-configuration: "Release"
